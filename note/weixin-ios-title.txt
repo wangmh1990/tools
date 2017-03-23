@@ -1,0 +1,23 @@
+ios微信标题不随页面更新问题：
+var ua = navigator.userAgent.toLowerCase();
+            var isIphone = /iphone/i.test(ua);
+            var isWeiXin = /micromessenger/i.test(ua);
+
+            if(isIphone&&isWeiXin) {
+                $rootScope.$on("$ionicView.afterEnter", function(event) {
+                    setTimeout(function() {
+                        document.title = document.title;
+                        var i = document.createElement('iframe');
+                        i.src = '//m.baidu.com/favicon.ico';
+                        i.style.display = 'none';
+                        i.style.width = '1px';
+                        i.style.height = '1px';
+                        i.onload = function() {
+                            setTimeout(function(){
+                                i.remove();
+                            }, 10);
+                        };
+                        document.body.appendChild(i);
+                    },0);
+                });
+            }
