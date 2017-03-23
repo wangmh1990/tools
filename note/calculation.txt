@@ -1,6 +1,7 @@
 8.03*100 = 802.9999999999999
 9.7*100 = 969.9999999999999
 
+
 function importCalculation() {
         Number.prototype.add = function (arg){
           return accAdd(this, arg);
