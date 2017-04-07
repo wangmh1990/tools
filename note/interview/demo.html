@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>面试题</title>
+</head>
+<body>
+<a href="./valueOf.html" target="_blank">valueOf</a>
+<script type="text/javascript">
+    /*运用 Angular 中的 filter 服务，为身份证写一个过滤器
+     将身份证年月日转化为 *
+     例如：
+     430682197905200825
+     430682********0825*/
+     /*angular.module('app', [])
+     .filter('filterIdCard', [function() {
+
+     }]);*/
+     //console.log(filterIdCard('511011199004077816'));
+     function filterIdCard(id) {
+        return id.substr(0, 6) + '*'.repeat(8) + id.substr(14);
+     }
+
+
+     /*
+      写一个方法，在一个未知对象中，找出所有的“李鹏”
+      并 console.log 对象输出它的引用地址，以及对应值
+      以及当前所在对象和当前对象有多少个目标值
+      * */
+         var targetObj = {
+                 a:{
+                     b:{
+                         c:{
+                             d:{
+                                 e:{
+                                     name:"百度"
+                                 }
+                             },
+                             l:{
+                                 name:"李鹏"
+                             }
+                         }
+                     }
+                 },
+                 d:"90",
+                 e:"90",
+                 l:{
+                     a:{
+                         b:{
+                             c:{
+                                 version:"1.0.0.1",
+                                 name:"李鹏"
+                             }
+                         }
+                     }
+                 },
+                 f:{
+                     name:"李鹏",
+                     update:"2017年03月20日"
+                 },
+                 n: [{
+                    name: "李鹏"
+                 }]
+         }
+        function getKeyword(obj,word){
+            var result = [];
+            var tem = ['obj'];
+            var reg = new RegExp(word,'g');
+            var getWord = function(obj){
+                for(var i in obj){
+                    if(typeof obj[i]=='object'){
+                        tem.push(i);
+                        getWord(obj[i]);
+                    }else{
+                        var match = obj[i].match(reg);
+                        if(match){
+                            // 找到了
+                            result.push({
+                                path:tem.join('->')+'->'+i,
+                                num:match.length
+                            })
+                        }
+                    }
+                }
+                tem.pop();
+            }
+            getWord(obj);
+            return result;
+        }
+        var res = getKeyword(targetObj,"李鹏");
+        //console.log(res);
+</script>
+<script type="text/javascript">
+    function add () {
+        console.log('进入add');
+        var args = Array.prototype.slice.call(arguments);
+        console.log(args);
+
+        var fn = function () {
+            var arg_fn = Array.prototype.slice.call(arguments);
+            console.log('调用fn');
+            console.log(arg_fn);
+            return add.apply(null, args.concat(arg_fn));
+        }
+
+        fn.valueOf = function () {
+            console.log('调用valueOf');
+            return args.reduce(function(a, b) {
+                return a + b;
+            })
+        }
+
+        return fn;
+    }
+    //console.log(add(1));
+    //console.log(add(1, 2, 3));
+    console.log(add(1, 2)(3));
+</script>
+</body>
+</html>

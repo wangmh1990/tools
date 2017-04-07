@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>json</title>
+</head>
+<body>
+<h4>
+    JSON是一种格式，基于文本，优于轻量，用于交换数据
+</h4>
+<p>1. 一种数据格式</p>
+<ul>
+    <li>姓名“二百六”，身高“160cm”，体重“60kg”</li>
+    <li>name="二百六"&height="160cm"&weight="60kg"</li>
+    <li>xml:
+        <pre>
+            <code>
+                <person><name>二百六</name><height>160</height><weight>60</weight></person>
+            </code>
+        </pre>
+    </li>
+    <li>{"name":"二百六","height":160,"weight":60}</li>
+</ul>
+<p>
+    2. 基于文本的数据格式
+</p>
+<ul>
+        <li>JSON是基于文本的数据格式，相对于基于二进制的数据，所以JSON在传递的时候是传递符合JSON这种格式的字符串，我们常会称为“JSON字符串”</li>
+    </ul>
+<p>
+    3. 轻量级的数据格式
+</p>
+<ul>
+    <li>
+        在JSON之前，有一个数据格式叫xml，现在还是广泛在用，但是JSON更加轻量，如xml需要用到很多标签，数据中标签本身占据了很多空间，而JSON比较轻量，即相同数据，以JSON的格式占据的带宽更小，这在有大量数据请求和传递的情况下是有明显优势的。
+    </li>
+</ul>
+
+<h4>JS中的JSON函数</h4>
+<p>将JS数据结构转化为JSON字符串 —— JSON.stringify</p>
+<p>JSON.stringify(value[, replacer [, space]])</p>
+<p>1. 第二个参数可以是函数，也可以是一个数组</p>
+<ul>
+    <li>如果第二个参数是一个函数，那么序列化过程中的每个属性都会被这个函数转化和处理</li>
+    <li>如果第二个参数是一个数组，那么只有包含在这个数组中的属性才会被序列化到最终的JSON字符串中</li>
+    <li>如果第二个参数是null，那作用上和空着没啥区别，但是不想设置第二个参数，只是想设置第三个参数的时候，就可以设置第二个参数为null</li>
+</ul>
+<p>2. 第三个参数用于美化输出 —— 不建议用</p>
+<ul>
+    <li>是1-10的某个数字，代表用几个空白字符</li>
+    <li>是字符串的话，就用该字符串代替空格，最多取这个字符串的前10个字符</li>
+    <li>没有提供该参数 等于 设置成null 等于 设置一个小于1的数</li>
+</ul>
+
+<h4>将JSON字符串解析为JS数据结构 —— JSON.parse</h4>
+<p>JSON.parse(text[, reviver])</p>
+<p>1. 如果第一个参数，即JSON字符串不是合法的字符串的话，那么这个函数会抛出错误</p>
+<p>2. 第二个参数必须是一个函数，这个函数作用在属性已经被解析但是还没返回前，将属性处理后再返回。<b>本质上，这就是一个深度优先的遍历</b></p>
+<script type="text/javascript">
+    var friend={
+        firstName: 'Good',
+        'lastName': 'Man',
+        'address': undefined,
+        'phone': ["1234567",undefined],
+        'fullName': function(){
+            return this.firstName + ' ' + this.lastName;
+        },
+        "context": {
+            result: '1',
+            age: 2
+        },
+    };
+
+    var filterFn = function(key, value) {
+        //console.log(key +":"+value);
+        if(key === 'result') {
+            return 'my filterFn result';
+        }
+        return value;
+    };
+    var filterArr = ['phone', "context", 'age', 12, 'other'];
+
+    /*console.log(JSON.stringify(friend));
+    console.log(JSON.stringify(friend, filterFn));
+    console.log(JSON.stringify(friend, filterArr));*/
+
+    var obj={
+        "firstName": "Good",
+        "lastName": "Man",
+        "phone":{"home":"1234567","work":["7654321","999000"]}
+    };
+    var objAfter = JSON.stringify(obj);
+    JSON.parse(objAfter, function(k,v){
+        console.log(k +"---"+v);
+    });
+</script>
+</body>
+</html>

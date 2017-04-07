@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>函数柯里化</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function add(num1, num2) {
+        return num1 + num2;
+    }
+    function curry(fn) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        console.log(args);
+        return function() {
+            var innerArgs = Array.prototype.slice.call(arguments);
+            var finalArgs = args.concat(innerArgs);
+            console.log(innerArgs);
+            console.log(finalArgs);
+            return fn.apply(null, finalArgs);
+        }
+    }
+    //console.log(curry(add, 1)());
+    //console.log(curry(add, 1, 2)());
+    console.log(curry(add, 1, 2, 3, 4)(3));
+</script>
+</body>
+</html>
