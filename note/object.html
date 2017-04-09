@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Object</title>
+</head>
+<body>
+
+<script type="text/javascript">
+//Object.assign对象浅复制
+    var obj = {
+        score: [1, 2, 3],
+        say: function() {
+            console.log("say");
+        },
+        name: "obj",
+        context: {
+            result: "success"
+        }
+    };
+    var copy = Object.assign({}, obj);
+    copy.score[1] = "replace";
+    copy.name = "copy";
+    copy.context.result = "copy success";
+    console.log(copy);
+    console.log(newObj);
+</script>
+</body>
+</html>

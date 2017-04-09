@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>构造函数模式</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    //特点：
+    //没有显示的创建对象
+    //直接将属性和方法赋给了this对象
+    //没有return语句
+    function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = function() {
+            alert(this.name);
+        };
+    }
+
+    //当做构造函数使用
+    var person1 = new Person("person1", 24, "front end");
+    var person2 = new Person("person2", 30, "back end");
+    //person1.sayName();
+    //person2.sayName();
+    //标示对象类型
+    console.log(person1.constructor);
+    console.log(person2.constructor === Person);
+    //检测对象类型
+    console.log("--------instanceof--------");
+    console.log(person1 instanceof Object);
+    console.log(person1 instanceof Person);
+    console.log(person2 instanceof Object);
+    console.log(person2 instanceof Person);
+
+    //new 过程
+    //1.创建一个新对象
+    //2.将构造函数的作用域赋给新对象（因此this就指向了这个新对象）
+    //3.执行构造函数中的代码（为这个新对象添加属性）
+    //4.返回新对象
+
+
+    //当做普通函数调用
+    //window就拥有了所有的属性和方法
+    var person3 = Person("person3", 12, "enge");//添加到window
+    //window.sayName();
+
+    //在另一个对象的作用域中调用
+    //调用后对象o就拥有了所有的属性和方法
+    var o = {};
+    Person.call(o, "persion o", 15, "NNN");
+    console.log("-----在对象中调用------")
+    console.log(o);
+    console.log(o instanceof Person);
+    //o.sayName();
+
+
+    //缺点
+    //每个实例方法都要在每个对象上重新创建一次，
+    //person1和person2都有一个sayName方法，但那两个方法不是同一个Function实例
+    console.log("------sayName---------");
+    console.log(person1.sayName === person2.sayName);
+    //因此不同实例上的同名函数是不相同的
+    //可以这样修改
+    /*function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = sayName;
+    }
+    function sayName() {
+        alert(this.name);
+    }*/
+    //因为sayName指向了同一个全局函数，因此实例对象共享了同一个方法
+    //但这个全局函数只能被某个对象调用，让全局作用域有点名不副实，而且增加了全局函数，因此这也不是最好的解决办法。这个问题可以通过使用原型模式来解决。
+</script>
+</body>
+</html>
